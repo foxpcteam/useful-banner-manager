@@ -604,7 +604,7 @@ function useful_banner_manager_manage_banners(){
       }
       ?>
       <br />
-      <p><strong style="color: #FF0000">If you want to have the statistics of the impressions and the clicks of the banners, get the premium version of it, only for <span style="font-size: 16px">$9.99</span>. To get the premium version of the banner, just contact me by the <a href="http://rubensargsyan.com/contact/">contact from</a>.</strong></p>
+      <p><strong style="color: #FF0000">If you want to have the statistics of the impressions and the clicks of the banners, get the premium version of it, only for <span style="font-size: 16px">$9.99</span>. To get the premium version of the banner, just contact me by the <a href="http://rubensargsyan.com/contact/" target="_blank">contact from</a>.</strong></p>
     </div>
     <?php
 }
