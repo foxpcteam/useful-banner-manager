@@ -12,7 +12,6 @@ This banner manager plugin helps to manage the banners easily over the WordPress
 There are many WordPress blogs which have or need to have banners on them. So a banner manager plugin is very useful for those blogs. This plugin is created for it. The plugin helps to manage the banners over the Wordpress blog. It is very easy to use. Try it and be assured.
 
 P.S.
-
 Wishing you to earn much money by banners advertising. :)
 
 [Plugin Homepage](http://rubensargsyan.com/wordpress-plugin-useful-banner-manager)
