@@ -45,6 +45,8 @@ function useful_banner_manager_load(){
 		}
 	}
 
+    require_once(ABSPATH."wp-admin/includes/upgrade.php");
+
     if($wpdb->get_var("SHOW TABLES LIKE '$useful_banner_manager_table_name'")!=$useful_banner_manager_table_name){
 	    $create_useful_banner_manager_table = "CREATE TABLE $useful_banner_manager_table_name(".
 			"id INT(11) NOT NULL auto_increment,".
@@ -66,8 +68,17 @@ function useful_banner_manager_load(){
             "last_edited_date VARCHAR(10) NOT NULL,".
             "PRIMARY KEY (id)) $charset_collate;";
 
-        require_once(ABSPATH."wp-admin/includes/upgrade.php");
         dbDelta($create_useful_banner_manager_table);
+    }
+
+    if(get_option("useful_banner_manager_version")===false){
+        add_option("useful_banner_manager_version",$useful_banner_manager_version);
+    }elseif(get_option("useful_banner_manager_version")=="1.0"){
+        $create_useful_banner_manager_not_exists_fields = "ALTER TABLE $useful_banner_manager_table_name ADD banner_alt TEXT NOT NULL AFTER banner_title, ADD link_rel VARCHAR(8) NOT NULL AFTER link_target";
+
+        $wpdb->query($create_useful_banner_manager_not_exists_fields);
+
+        update_option("useful_banner_manager_version",$useful_banner_manager_version);
     }
 
     if(!file_exists(ABSPATH."wp-content/uploads")){
@@ -76,12 +87,6 @@ function useful_banner_manager_load(){
 
     if(!file_exists(ABSPATH."wp-content/uploads/useful_banner_manager_banners")){
         mkdir(ABSPATH."wp-content/uploads/useful_banner_manager_banners");
-    }
-
-    if(get_option("useful_banner_manager_version")===false){
-        add_option("useful_banner_manager_version",$useful_banner_manager_version);
-    }elseif(get_option("useful_banner_manager_version")<$useful_banner_manager_version){
-        update_option("useful_banner_manager_version",$useful_banner_manager_version);
     }
 }
 
