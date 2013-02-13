@@ -3,7 +3,7 @@ Contributors: s_ruben
 Donate link: http://rubensargsyan.com/donate/
 Tags: banner manager, ads manager, banners, ads, advertisement, buddypress
 Requires at least: 2.9
-Tested up to: 3.2.1
+Tested up to: 3.5.1
 
 This banner manager plugin helps to manage the banners easily over the WordPress blog. It works with BuddyPress too.
 
@@ -27,13 +27,13 @@ Wishing you to earn much money by banners advertising. :)
 
 * To show the banners in the sidebar, go to the "Appearance"->"Widgets" panel and drag-and-drop the "UBM banners" box into your sidebar, configure options and save them.
 * To show the banners in a post or a page, add [useful_banner_manager banners=2,6 count=1] (where the numbers 2 and 6 (banners=2,6) are the IDs of the banners which would be shown, the number 1 (count=1) is the count of the banners which would be shown) into the post or the page.
-* Also the banners can be shown by adding `<?php if(function_exists("useful_banner_manager_banners")){ useful_banner_manager_banners("2,6",1); } ?>` (where the first argument ("2,6") is a string of the banners' IDs, separated by commas, and the second argument is the banners' count which would be shown).
+* Also the banners can be shown by adding `<?php if ( function_exists( 'useful_banner_manager_banners' ) ) { useful_banner_manager_banners( '2,6', 1 ); } ?>` (where the first argument ('2,6') is a string of the banners' IDs, separated by commas, and the second argument is the banners' count which would be shown).
 
 = Add banners rotations =
 
 * To show the banners rotations in the sidebar, go to the "Appearance"->"Widgets" panel and drag-and-drop the "UBM banners rotation" box into your sidebar, configure the options and save them.
 * To show the banners in a post or a page, add [useful_banner_manager_banner_rotation banners=2,6 interval=5 width=468 height=60 orderby=rand] (where the numbers 2 and 6 (banners=2,6) are the IDs of the banners which would be shown, the number 5 (interval=1) is the seconds of the delay between banners rotations, the numbers 468 and 60 are the width and height of the banners which will be rotating and set "orderby" option to "rand" to show the banners in random order or "order" (orderby=rand or orderby=order)) into the post or the page.
-* Also the banners rotations can be shown by adding `<?php if(function_exists("useful_banner_manager_banners_rotation")){ useful_banner_manager_banners_rotation("2,6",5,468,60,"rand"); } ?>` (where the first argument ("2,6") is a string of the banners' IDs, separated by commas,  the second argument (5) is the seconds of the delay between banners rotations, the third and forth arguments (468 and 60) are the width and height of the banners which will be rotating and put the fifth argument ("rand"), which is optional, to show the banners in random order).
+* Also the banners rotations can be shown by adding `<?php if ( function_exists( 'useful_banner_manager_banners_rotation' ) ) { useful_banner_manager_banners_rotation( '2,6', 5, 468, 60, 'rand' ); } ?>` (where the first argument ('2,6') is a string of the banners' IDs, separated by commas,  the second argument (5) is the seconds of the delay between banners rotations, the third and forth arguments (468 and 60) are the width and height of the banners which will be rotating and put the fifth argument ('rand'), which is optional, to show the banners in random order).
 
 == Frequently Asked Questions ==
 
@@ -44,6 +44,9 @@ For questions contact with the plugin author - [Ruben Sargsyan](http://rubensarg
 1. Manage Banners
 
 == Changelog ==
+
+= 1.2 =  
+* Fixed some bugs.
 
 = 1.1 =
 * Added banners rotation function.
