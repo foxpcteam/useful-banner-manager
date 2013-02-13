@@ -173,35 +173,6 @@ function useful_banner_manager_delete_banner( $banner_id ){
     }
 }
 
-function useful_banner_manager_add_impression( $banner_id ) {
-    global $wpdb, $useful_banner_manager_impressions_table_name;
-
-    $impressions = useful_banner_manager_get_impressions( $banner_id, date( 'Y-m' ) );
-
-    if ( $impressions == 0 ) {
-        $data = array(
-            'banner_id'     => $banner_id,
-            'archive_date'  => date( 'Y-m' ),
-            'impressions'   => 1
-        );
-
-        $wpdb->insert( $useful_banner_manager_impressions_table_name, $data );
-    }else{
-        $impressions = 1 + $impressions;
-
-        $data = array(
-            'impressions'   => $impressions
-        );
-
-        $where = array(
-            'banner_id'     => $banner_id,
-            'archive_date'  => date( 'Y-m' )
-        );
-
-        $wpdb->update( $useful_banner_manager_impressions_table_name, $data, $where );
-    }
-}
-
 function useful_banner_manager_get_banners(){
     global $wpdb, $useful_banner_manager_table_name;
 
