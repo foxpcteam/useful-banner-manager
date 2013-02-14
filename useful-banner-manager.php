@@ -3,7 +3,7 @@
 Plugin Name: Useful Banner Manager
 Plugin URI: http://rubensargsyan.com/wordpress-plugin-useful-banner-manager/
 Description: This banner manager plugin helps to manage the banners easily over the WordPress blog. It works with BuddyPress too. <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php">Banner Manager</a>
-Version: 1.2
+Version: 1.2.1
 Author: Ruben Sargsyan
 Author URI: http://rubensargsyan.com/
 */
@@ -36,7 +36,7 @@ function useful_banner_manager_load() {
 
     $useful_banner_manager_table_name = $wpdb->prefix . 'useful_banner_manager_banners';
     $useful_banner_manager_plugin_prefix = 'useful_banner_manager_';
-    $useful_banner_manager_version = '1.2';
+    $useful_banner_manager_version = '1.2.1';
 
 	$charset_collate = '';
 
@@ -87,11 +87,11 @@ function useful_banner_manager_load() {
     }
 
     if( ! file_exists( ABSPATH . 'wp-content/uploads ' ) ) {
-        mkdir( ABSPATH . 'wp-content/uploads' );
+        @mkdir( ABSPATH . 'wp-content/uploads' );
     }
 
     if ( ! file_exists( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' ) ) {
-        mkdir( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' );
+        @mkdir( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' );
     }
 }
 

@@ -45,6 +45,9 @@ For questions contact with the plugin author - [Ruben Sargsyan](http://rubensarg
 
 == Changelog ==
 
+= 1.2.1 =
+* Fixed some bugs.
+
 = 1.2 =
 * Now you can select all banners in the shortcodes without adding their ids.
 * Flash banners and lightboxes conflict is removed.
