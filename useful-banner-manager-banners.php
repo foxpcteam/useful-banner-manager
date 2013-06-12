@@ -4,6 +4,25 @@ if ( ! current_user_can( 'manage_options' ) ) {
 }
 ?>
 <div class="wrap">
+    <div style="margin: 20px 0; text-align: center; display: inline-block">
+        <div style="float: left; text-align: justify; width: 400px; border: 1px solid #DFDFDF; padding: 10px; padding-bottom: 6px;">
+            <div style="float: left; margin-right: 10px;">
+                <a href="http://rubensargsyan.com/wordpress-plugin-ubm-premium/" target="_blank"><img src="http://rubensargsyan.com/images/ubm-premium.png" alt="UBM Premium" style="border: none" /></a>
+            </div>
+            <div style="font-size: 11px">"UBM Premium" plugin is the advenced version of the "Useful Banner Manager" plugin which supports more features like impressions, clicks and CTR of the banners. It also allows you to add the links of flash banners outside.
+                <div style="margin-top: 14px;"><a href="http://rubensargsyan.com/wordpress-plugin-ubm-premium/" target="_blank">"UBM Premium" homepage</a></div>
+            </div>
+        </div>
+        <div style="float: right; margin-left: 50px; text-align: justify; width: 400px; border: 1px solid #DFDFDF; padding: 10px; padding-bottom: 6px;">
+            <div style="float: left; margin-right: 10px;">
+                <a href="http://rubensargsyan.com/wordpress-plugin-useful-video-player/" target="_blank"><img src="http://rubensargsyan.com/images/useful-video-player.png" alt="UBM Premium" style="border: none" /></a>
+            </div>
+            <div style="font-size: 11px">"Useful Video Player" plugin allows you to embed videos to your WordPress powered website without hassle.
+                <div style="margin-top: 7px;">Among the basic features other plugins might offer you, this plugin will enable you to use videos as ads, add overlay text and images.</div>
+                <div style="margin-top: 7px;"><a href="http://rubensargsyan.com/wordpress-plugin-useful-video-player/" target="_blank">"Useful Video Player" homepage</a></div>
+            </div>
+        </div>
+    </div>
     <h1><?php echo( $useful_banner_manager_plugin_title ); ?></h1>
     <h2><?php _e( 'Banners' ); ?></h2>
     <?php
@@ -39,6 +58,8 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 }
 
                 if ( trim( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_title' ] ) == '' ) {
+                    $banner_title = '';
+
                     $errors[] = 'banner_title';
                 } else {
                     $banner_title = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_title' ] ) );
@@ -78,12 +99,16 @@ if ( ! current_user_can( 'manage_options' ) ) {
                     if ( is_numeric( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width' ] ) && $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width'] > 0 ) {
                         $banner_width = $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width' ];
                     } else {
+                        $banner_width = '';
+
                         $errors[] = 'banner_width';
                     }
 
                     if ( is_numeric( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ] ) && $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ] > 0 ) {
                         $banner_height = $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ];
                     } else {
+                        $banner_height = '';
+
                         $errors[] = 'banner_height';
                     }
                 }
@@ -105,6 +130,9 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 }else{
                     $errors[] = 'banner_order';
                 }
+
+                $wrapper_id = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_id' ] ) );
+                $wrapper_class = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_class' ] ) );
 
                 switch( $_POST[ $useful_banner_manager_plugin_prefix . 'is_visible' ] ) {
                     case 'no':
@@ -131,6 +159,8 @@ if ( ! current_user_can( 'manage_options' ) ) {
                         'banner_height'     => $banner_height,
                         'active_until'      => $active_until,
                         'banner_order'      => $banner_order,
+                        'wrapper_id'        => $wrapper_id,
+                        'wrapper_class'     => $wrapper_class,
                         'is_visible'        => $is_visible,
                         'banner_edited_by'  => $banner_edited_by,
                         'last_edited_date'  => $last_edited_date
@@ -213,7 +243,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
                   <tr>
                       <td width="25%" valign="middle"><strong><?php _e( 'Banner Link', 'useful_banner_manager' ); ?></strong></td>
                       <td width="75%">
-                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" style="width: 300px" <?php if ( ! empty ( $errors ) ) { echo( 'value="' . $banner_link . '"' ); } else { echo( 'value="' . $banner->banner_link . '"' ); } ?> /> <small><?php _e( 'Not for swf files.', 'useful_banner_manager' ); ?></small>
+                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" style="width: 300px" <?php if ( ! empty ( $errors ) ) { echo( 'value="' . $banner_link . '"' ); } else { echo( 'value="' . $banner->banner_link . '"' ); } ?> />
                       </td>
                   </tr>
                   <tr>
@@ -224,7 +254,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
                               <option value="_top" <?php if ( ! empty( $errors ) && $link_target == '_top' ) { echo( 'selected="selected"' ); } elseif ( ( empty( $errors ) ) && $banner->link_target == '_top' ) { echo( 'selected="selected"' ); } ?>>_top</option>
                               <option value="_blank" <?php if ( ! empty( $errors ) && $link_target == '_blank' ) { echo( 'selected="selected"' ); } elseif ( ( empty( $errors ) ) && $banner->link_target == '_blank' ) { echo( 'selected="selected"' ); } ?>>_blank</option>
                               <option value="_parent" <?php if ( ! empty( $errors ) && $link_target == '_parent' ) { echo( 'selected="selected"' ); } elseif ( ( empty( $errors ) ) && $banner->link_target == '_parent' ) { echo( 'selected="selected"' ); } ?>>_parent</option>
-                          </select> <small><?php _e( 'Not for swf files.', 'useful_banner_manager' ); ?></small>
+                          </select>
                       </td>
                   </tr>
                   <tr>
@@ -255,13 +285,25 @@ if ( ! current_user_can( 'manage_options' ) ) {
                   <tr>
                       <td width="25%" valign="middle"><strong><?php _e( 'Active Until', 'useful_banner_manager' ); ?></strong></td>
                       <td width="75%">
-                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" style="width: 100px" <?php if ( ! empty( $errors ) ) { if( in_array( 'active_until', $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'active_until' ] ) . '"'); } elseif ( $active_until != -1 ) { echo( 'value="' . $active_until . '"' ); } } elseif ( $banner->active_until != -1 ) { echo( 'value="' . $banner->active_until . '"' ); } ?> /> <small><?php _e( 'Date format is YYYY-MM-DD. Leave empty if there is no date.', 'useful_banner_manager' ); ?></small>
+                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" class="datepicker" style="width: 100px" <?php if ( ! empty( $errors ) ) { if( in_array( 'active_until', $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'active_until' ] ) . '"'); } elseif ( $active_until != -1 ) { echo( 'value="' . $active_until . '"' ); } } elseif ( $banner->active_until != -1 ) { echo( 'value="' . $banner->active_until . '"' ); } ?> /> <small><?php _e( 'Leave empty if there is no date.', 'useful_banner_manager' ); ?></small>
                       </td>
                   </tr>
                   <tr>
                       <td width="25%" valign="middle"><strong><?php _e( 'Banner Order', 'useful_banner_manager' ); ?></strong></td>
                       <td width="75%">
                           <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_order" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_order" style="width: 50px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_order' ] ) . '"' ); } else { echo( 'value="' . $banner->banner_order . '"' ); } ?> /> <small><?php _e( 'Set the number depends on which the banner will be shown on more top places.', 'useful_banner_manager' ); ?></small>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width="25%" valign="middle"><strong><?php _e( 'Wrapper ID', 'useful_banner_manager' ); ?></strong></td>
+                      <td width="75%">
+                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_id" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_id" style="width: 100px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . $wrapper_id . '"' ); } else { echo( 'value="' . $banner->wrapper_id . '"' ); } ?> /> <small><?php _e( 'ID of the tag "div" wrapping the banner.', 'useful_banner_manager' ); ?></small>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td width="25%" valign="middle"><strong><?php _e( 'Wrapper Class', 'useful_banner_manager' ); ?></strong></td>
+                      <td width="75%">
+                          <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_class" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_class" style="width: 100px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . $wrapper_class . '"' ); } else { echo( 'value="' . $banner->wrapper_class . '"' ); } ?> /> <small><?php _e( 'Class or classes of the tag "div" wrapping the banner.', 'useful_banner_manager' ); ?></small>
                       </td>
                   </tr>
                   <tr>
@@ -277,8 +319,13 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <p class="submit">
                   <input name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>save_banner" type="submit" value="<?php _e( 'Save', 'useful_banner_manager' ); ?>" /> <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php"><?php _e( 'Cancel', 'useful_banner_manager' ); ?></a>
               </p>
-            </form>
-    <?php
+          </form>
+          <script type="text/javascript">
+          if(jQuery.isFunction(jQuery.fn.datepicker)){
+              jQuery('.datepicker').datepicker({ yearRange: '-0:+20', changeYear: true, dateFormat: 'yy-mm-dd' });
+          }
+          </script>
+        <?php
         }
     }else{
         if ( $_GET['page'] == 'useful-banner-manager/useful-banner-manager-banners.php' ) {
@@ -301,6 +348,8 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 $banner_tmp_file = $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['tmp_name'];
 
                 if ( trim( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_title' ] ) == '' ) {
+                    $banner_title = '';
+
                     $errors[] = 'banner_title';
                 } else {
                     $banner_title = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_title' ] ) );
@@ -340,12 +389,16 @@ if ( ! current_user_can( 'manage_options' ) ) {
                     if ( is_numeric( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width' ] ) && $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width'] > 0 ) {
                         $banner_width = $_POST[ $useful_banner_manager_plugin_prefix . 'banner_width' ];
                     } else {
+                        $banner_width = '';
+
                         $errors[] = 'banner_width';
                     }
 
                     if ( is_numeric( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ] ) && $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ] > 0 ) {
                         $banner_height = $_POST[ $useful_banner_manager_plugin_prefix . 'banner_height' ];
                     } else {
+                        $banner_height = '';
+
                         $errors[] = 'banner_height';
                     }
                 }
@@ -369,6 +422,9 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 }else{
                     $errors[] = 'banner_order';
                 }
+
+                $wrapper_id = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_id' ] ) );
+                $wrapper_class = esc_attr( stripslashes( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_class' ] ) );
 
                 switch( $_POST[ $useful_banner_manager_plugin_prefix . 'is_visible' ] ) {
                     case 'no':
@@ -395,6 +451,8 @@ if ( ! current_user_can( 'manage_options' ) ) {
                         'added_date'        => $added_date,
                         'active_until'      => $active_until,
                         'banner_order'      => $banner_order,
+                        'wrapper_id'        => $wrapper_id,
+                        'wrapper_class'     => $wrapper_class,
                         'is_visible'        => $is_visible,
                         'banner_added_by'   => $banner_added_by
                     );
@@ -453,7 +511,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <tr>
                   <td width="25%" valign="middle"><strong><?php _e( 'Banner Link', 'useful_banner_manager' ); ?></strong></td>
                   <td width="75%">
-                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" style="width: 300px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . $banner_link . '"'); } ?> /> <small><?php _e( 'Not for swf files.', 'useful_banner_manager' ); ?></small>
+                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_link" style="width: 300px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . $banner_link . '"'); } ?> />
                   </td>
               </tr>
               <tr>
@@ -464,7 +522,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
                           <option value="_top" <?php if ( ! empty( $errors ) && $link_target == '_top' ) { echo( 'selected="selected"' ); } ?>>_top</option>
                           <option value="_blank" <?php if ( ! empty( $errors ) && $link_target == '_blank' ) { echo( 'selected="selected"' ); } ?>>_blank</option>
                           <option value="_parent" <?php if ( ! empty( $errors ) && $link_target == '_parent' ) { echo( 'selected="selected"' ); } ?>>_parent</option>
-                      </select> <small><?php _e( 'Not for swf files.', 'useful_banner_manager' ); ?></small>
+                      </select>
                   </td>
               </tr>
               <tr>
@@ -479,7 +537,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <tr>
                   <td width="25%" valign="middle"><strong><?php _e( 'Banner Sizes', 'useful_banner_manager' ); ?></strong></td>
                   <td width="75%">
-                      <label><?php _e( 'Auto:', 'useful_banner_manager' ); ?> <input type="checkbox" name="<?php echo($useful_banner_manager_plugin_prefix); ?>auto_sizes" onclick="if(jQuery(this).is(':checked')){ jQuery('#'<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_width').attr('disabled',true); jQuery('#'<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_height').attr('disabled',true); }else{ jQuery('#'<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_width').removeAttr('disabled'); jQuery('#'<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_height').removeAttr('disabled'); }" <?php if ( ! empty( $errors ) && isset( $_POST[ $useful_banner_manager_plugin_prefix . 'auto_sizes' ] ) ) { echo( 'checked="checked"' ); } ?> /></label> <small><?php _e( 'Check this to set the original sizes of the banner, not for swf files.', 'useful_banner_manager' ); ?></small>
+                      <label><?php _e( 'Auto:', 'useful_banner_manager' ); ?> <input type="checkbox" name="<?php echo($useful_banner_manager_plugin_prefix); ?>auto_sizes" onclick="if(jQuery(this).is(':checked')){ jQuery('#<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_width').attr('disabled',true); jQuery('#<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_height').attr('disabled',true); }else{ jQuery('#<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_width').removeAttr('disabled'); jQuery('#<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_height').removeAttr('disabled'); }" <?php if ( ! empty( $errors ) && isset( $_POST[ $useful_banner_manager_plugin_prefix . 'auto_sizes' ] ) ) { echo( 'checked="checked"' ); } ?> /></label> <small><?php _e( 'Check this to set the original sizes of the banner, not for swf files.', 'useful_banner_manager' ); ?></small>
                       <table>
                           <tr>
                             <td><label for="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_width"><?php _e( 'Width:', 'useful_banner_manager' ); ?></label></td>
@@ -495,13 +553,25 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <tr>
                   <td width="25%" valign="middle"><strong><?php _e( 'Active Until', 'useful_banner_manager' ); ?></strong></td>
                   <td width="75%">
-                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" style="width: 100px" <?php if ( ! empty( $errors ) ) { if( in_array( 'active_until', $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'active_until' ] ) . '"'); } elseif ( $active_until != -1 ) { echo( 'value="' . $active_until . '"' ); } } ?> /> <small><?php _e( 'Date format is YYYY-MM-DD. Leave empty if there is no date.', 'useful_banner_manager' ); ?></small>
+                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>active_until" class="datepicker" style="width: 100px" <?php if ( ! empty( $errors ) ) { if( in_array( 'active_until', $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'active_until' ] ) . '"'); } elseif ( $active_until != -1 ) { echo( 'value="' . $active_until . '"' ); } } ?> /> <small><?php _e( 'Leave empty if there is no date.', 'useful_banner_manager' ); ?></small>
                   </td>
               </tr>
               <tr>
                   <td width="25%" valign="middle"><strong><?php _e( 'Banner Order', 'useful_banner_manager' ); ?></strong></td>
                   <td width="75%">
                       <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_order" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>banner_order" style="width: 50px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'banner_order' ] ) . '"' ); } else { echo( 'value="0"' ); } ?> /> <small><?php _e( 'Set the number depends on which the banner will be shown on more top places.', 'useful_banner_manager' ); ?></small>
+                  </td>
+              </tr>
+              <tr>
+                  <td width="25%" valign="middle"><strong><?php _e( 'Wrapper ID', 'useful_banner_manager' ); ?></strong></td>
+                  <td width="75%">
+                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_id" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_id" style="width: 100px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_id' ] ) . '"' ); } else { echo( 'value=""' ); } ?> /> <small><?php _e( 'ID of the tag "div" wrapping the banner.', 'useful_banner_manager' ); ?></small>
+                  </td>
+              </tr>
+              <tr>
+                  <td width="25%" valign="middle"><strong><?php _e( 'Wrapper Class', 'useful_banner_manager' ); ?></strong></td>
+                  <td width="75%">
+                      <input type="text" name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_class" id="<?php echo( $useful_banner_manager_plugin_prefix ); ?>wrapper_class" style="width: 100px" <?php if ( ! empty( $errors ) ) { echo( 'value="' . esc_attr( $_POST[ $useful_banner_manager_plugin_prefix . 'wrapper_class' ] ) . '"' ); } else { echo( 'value=""' ); } ?> /> <small><?php _e( 'Class or classes of the tag "div" wrapping the banner.', 'useful_banner_manager' ); ?></small>
                   </td>
               </tr>
               <tr>
@@ -518,6 +588,11 @@ if ( ! current_user_can( 'manage_options' ) ) {
               <input name="<?php echo( $useful_banner_manager_plugin_prefix ); ?>add_banner" type="submit" value="<?php _e( 'Add banner', 'useful_banner_manager' ); ?>" />
           </p>
         </form>
+        <script type="text/javascript">
+        if(jQuery.isFunction(jQuery.fn.datepicker)){
+            jQuery('.datepicker').datepicker({ yearRange: '-0:+20', changeYear: true, dateFormat: 'yy-mm-dd' });
+        }
+        </script>
         <br />
         <?php $banners = useful_banner_manager_get_banners(); ?>
         <style>
@@ -606,6 +681,4 @@ if ( ! current_user_can( 'manage_options' ) ) {
     <?php
     }
     ?>
-    <br />
-    <p><strong style="color: #FF0000">To have more features in this plugin (statistics of the impressions and the clicks of the banners, etc.) get the premium version of it. Read more about the premium version on its <a href="http://rubensargsyan.com/wordpress-plugin-ubm-premium/" target="_blank">homepage</a>.</strong></p>
 </div>

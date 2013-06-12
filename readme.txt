@@ -2,7 +2,7 @@
 Contributors: s_ruben
 Donate link: http://rubensargsyan.com/donate/
 Tags: banner manager, ads manager, banners, ads, advertisement, buddypress
-Requires at least: 2.9
+Requires at least: 3.0
 Tested up to: 3.5.1
 
 This banner manager plugin helps to manage the banners easily over the WordPress blog. It works with BuddyPress too.
@@ -44,6 +44,10 @@ For questions contact with the plugin author - [Ruben Sargsyan](http://rubensarg
 1. Manage Banners
 
 == Changelog ==
+
+= 1.3 =
+* Added new options for banners - "Wrapper ID" (ID of the tag "div" wrapping the banner) and "Wrapper Class" (Class or classes of the tag "div" wrapping the banner).
+* Fixed some bugs.
 
 = 1.2.1 =
 * Fixed some bugs.
