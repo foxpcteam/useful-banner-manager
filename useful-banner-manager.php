@@ -3,12 +3,12 @@
 Plugin Name: Useful Banner Manager
 Plugin URI: http://rubensargsyan.com/wordpress-plugin-useful-banner-manager/
 Description: This banner manager plugin helps to manage the banners easily over the WordPress blog. It works with BuddyPress too. <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php">Banner Manager</a>
-Version: 1.3
+Version: 1.4
 Author: Ruben Sargsyan
 Author URI: http://rubensargsyan.com/
 */
 
-/*  Copyright 2013 Ruben Sargsyan (email: info@rubensargsyan.com)
+/*  Copyright 2014 Ruben Sargsyan (email: info@rubensargsyan.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ function useful_banner_manager_load() {
 
     $useful_banner_manager_table_name = $wpdb->prefix . 'useful_banner_manager_banners';
     $useful_banner_manager_plugin_prefix = 'useful_banner_manager_';
-    $useful_banner_manager_version = '1.3';
+    $useful_banner_manager_version = '1.4';
 
 	$charset_collate = '';
 
@@ -84,7 +84,7 @@ function useful_banner_manager_load() {
         $wpdb->query( $create_useful_banner_manager_not_exists_fields );
     }
 
-    if ( $current_version == '1.0'){
+    if ( $current_version == '1.0' ) {
         $create_useful_banner_manager_not_exists_fields = "ALTER TABLE " . $useful_banner_manager_table_name . " ADD banner_alt TEXT NOT NULL AFTER banner_title, ADD link_rel VARCHAR(8) NOT NULL AFTER link_target";
 
         $wpdb->query( $create_useful_banner_manager_not_exists_fields );
@@ -97,12 +97,14 @@ function useful_banner_manager_load() {
     }
 
     if( ! file_exists( ABSPATH . 'wp-content/uploads ' ) ) {
-        @mkdir( ABSPATH . 'wp-content/uploads' );
+        @ mkdir( ABSPATH . 'wp-content/uploads' );
     }
 
     if ( ! file_exists( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' ) ) {
-        @mkdir( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' );
+        @ mkdir( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners' );
     }
+
+    load_plugin_textdomain( 'useful-banner-manager', false, 'useful-banner-manager/languages' );
 }
 
 add_action( 'admin_menu', 'useful_banner_manager_menu' );
@@ -255,7 +257,7 @@ class Useful_Banner_Manager_Widget extends WP_Widget {
      function Useful_Banner_Manager_Widget() {
         $widget_opions = array(
             'classname'     => 'useful_banner_manager_widget',
-            'description'   => __( 'UBM banners' )
+            'description'   => 'UBM banners'
         );
 
 		$this->WP_Widget( 'useful-banner-manager-banners', 'UBM banners', $widget_opions );
@@ -320,13 +322,13 @@ class Useful_Banner_Manager_Widget extends WP_Widget {
 
         if ( empty( $banners ) ) {
             ?>
-            <p><?php _e( 'There is no visible banner.', 'useful_banner_manager' ); ?> <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php"><?php _e( 'Add Banners', 'useful_banner_manager' ); ?></a></p>
+            <p><?php _e( 'There is no visible banner.', 'useful-banner-manager' ); ?> <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php"><?php _e( 'Add Banners', 'useful-banner-manager' ); ?></a></p>
             <?php
         } else {
             ?>
-            <p><label><?php _e( 'Title:', 'useful_banner_manager' ); ?> <input class="widefat" name="<?php echo( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo( esc_attr( $title ) ); ?>" /></label></p>
+            <p><label><?php _e( 'Title:', 'useful-banner-manager' ); ?> <input class="widefat" name="<?php echo( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo( esc_attr( $title ) ); ?>" /></label></p>
             <table width="100%" style="border-collapse: collapse">
-                <caption><?php _e( 'Banners', 'useful_banner_manager' ); ?></caption>
+                <caption><?php _e( 'Banners', 'useful-banner-manager' ); ?></caption>
                 <?php
                 foreach ( $banners as $banner ) {
                 ?>
@@ -335,7 +337,7 @@ class Useful_Banner_Manager_Widget extends WP_Widget {
                 }
                 ?>
             </table><br />
-            <p><label><?php _e( 'Number of banners to show:', 'useful_banner_manager' ); ?> <input name="<?php echo( $this->get_field_name( 'count' ) ); ?>" type="text" value="<?php echo( esc_attr( $count ) ); ?>" size="2" /></label></p>
+            <p><label><?php _e( 'Number of banners to show:', 'useful-banner-manager' ); ?> <input name="<?php echo( $this->get_field_name( 'count' ) ); ?>" type="text" value="<?php echo( esc_attr( $count ) ); ?>" size="2" /></label></p>
         <?php
         }
     }
@@ -345,7 +347,7 @@ class Useful_Banner_Manager_Rotation_Widget extends WP_Widget {
      function Useful_Banner_Manager_Rotation_Widget() {
         $widget_opions = array(
             'classname'     => 'useful_banner_manager_rotation_widget',
-            'description'   => __('UBM banners rotation')
+            'description'   => 'UBM banners rotation'
         );
 
 		$this->WP_Widget( 'useful-banner-manager-banners-rotation', 'UBM banners rotation', $widget_opions );
@@ -489,13 +491,13 @@ class Useful_Banner_Manager_Rotation_Widget extends WP_Widget {
 
         if ( empty( $banners ) ) {
         ?>
-            <p><?php _e( 'There is no visible banner.', 'useful_banner_manager' ); ?> <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php"><?php _e( 'Add Banners', 'useful_banner_manager' ); ?></a></p>
+            <p><?php _e( 'There is no visible banner.', 'useful-banner-manager' ); ?> <a href="admin.php?page=useful-banner-manager/useful-banner-manager-banners.php"><?php _e( 'Add Banners', 'useful-banner-manager' ); ?></a></p>
         <?php
         } else {
             ?>
-            <p><label><?php _e( 'Title:', 'useful_banner_manager' ); ?>	<input class="widefat" id="<?php echo( $this->get_field_id( 'title' ) ); ?>" name="<?php echo( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo( esc_attr( $title ) ); ?>" /></label></p>
+            <p><label><?php _e( 'Title:', 'useful-banner-manager' ); ?>	<input class="widefat" id="<?php echo( $this->get_field_id( 'title' ) ); ?>" name="<?php echo( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo( esc_attr( $title ) ); ?>" /></label></p>
             <table width="100%" style="border-collapse: collapse">
-                <caption><?php _e( 'Banners', 'useful_banner_manager' ); ?></caption>
+                <caption><?php _e( 'Banners', 'useful-banner-manager' ); ?></caption>
                 <?php
                 foreach ( $banners as $banner ) {
                     ?>
@@ -505,10 +507,10 @@ class Useful_Banner_Manager_Rotation_Widget extends WP_Widget {
                 ?>
             </table>
             <br />
-            <p><label><?php _e( 'Interval:', 'useful_banner_manager' ); ?> <input name="<?php echo( $this->get_field_name( 'interval' ) ); ?>" type="text" value="<?php echo( esc_attr( $interval ) ); ?>" size="2" /></label> <?php _e( 'seconds', 'useful_banner_manager' ); ?></p>
-            <p><label><?php _e( 'Width of rotating banners:', 'useful_banner_manager' ); ?> <input name="<?php echo( $this->get_field_name( 'width' ) ); ?>" type="text" value="<?php echo( esc_attr( $width ) ); ?>" size="2" /></label><?php _e( 'px', 'useful_banner_manager' ); ?></p>
-            <p><label><?php _e( 'Height of rotating banners:', 'useful_banner_manager' ); ?> <input name="<?php echo( $this->get_field_name( 'height' ) ); ?>" type="text" value="<?php echo( esc_attr( $height ) ); ?>" size="2" /></label><?php _e( 'px', 'useful_banner_manager' ); ?></p>
-            <p><label><?php _e( 'Order by rand:', 'useful_banner_manager' ); ?> <input class="checkbox" name="<?php echo( $this->get_field_name( 'orderby' ) ); ?>" type="checkbox" value="rand" <?php if ( $instance['orderby'] == 'rand' ) { echo( 'checked="checked"' ); } ?> /></label></p>
+            <p><label><?php _e( 'Interval:', 'useful-banner-manager' ); ?> <input name="<?php echo( $this->get_field_name( 'interval' ) ); ?>" type="text" value="<?php echo( esc_attr( $interval ) ); ?>" size="2" /></label> <?php _e( 'seconds', 'useful-banner-manager' ); ?></p>
+            <p><label><?php _e( 'Width of rotating banners:', 'useful-banner-manager' ); ?> <input name="<?php echo( $this->get_field_name( 'width' ) ); ?>" type="text" value="<?php echo( esc_attr( $width ) ); ?>" size="2" /></label><?php _e( 'px', 'useful-banner-manager' ); ?></p>
+            <p><label><?php _e( 'Height of rotating banners:', 'useful-banner-manager' ); ?> <input name="<?php echo( $this->get_field_name( 'height' ) ); ?>" type="text" value="<?php echo( esc_attr( $height ) ); ?>" size="2" /></label><?php _e( 'px', 'useful-banner-manager' ); ?></p>
+            <p><label><?php _e( 'Order by rand:', 'useful-banner-manager' ); ?> <input class="checkbox" name="<?php echo( $this->get_field_name( 'orderby' ) ); ?>" type="checkbox" value="rand" <?php if ( $instance['orderby'] == 'rand' ) { echo( 'checked="checked"' ); } ?> /></label></p>
             <?php
         }
      }
