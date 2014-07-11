@@ -2,6 +2,8 @@
 if ( ! current_user_can( 'manage_options' ) ) {
     die( 'Access Denied' );
 }
+
+$upload_dir = wp_upload_dir();
 ?>
 <div class="wrap">
     <div style="margin: 20px 0; text-align: center; display: inline-block">
@@ -39,11 +41,12 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
                 if ( $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['error'] == 0 ) {
                     $banner_name_parts = explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] );
-
                     array_pop( $banner_name_parts );
 
                     $banner_name = implode( '.', $banner_name_parts );
-                    $banner_type = array_pop( explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] ) );
+
+                    $banner_file_parts = explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] );
+                    $banner_type = array_pop( $banner_file_parts );
 
                     $available_formats = array( 'jpg', 'jpeg', 'gif', 'png', 'swf' );
 
@@ -169,11 +172,11 @@ if ( ! current_user_can( 'manage_options' ) ) {
                     useful_banner_manager_update_banner( $banner_id, $banner_data );
 
                     if ( $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['error'] == 0 ) {
-                        if ( file_exists( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners/' . $banner_old_file ) ) {
-                          unlink( ABSPATH . 'wp-content/uploads/useful_banner_manager_banners/' . $banner_old_file );
+                        if ( file_exists( $upload_dir['basedir'] . '/useful_banner_manager_banners/' . $banner_old_file ) ) {
+                          unlink( $upload_dir['basedir'] . '/useful_banner_manager_banners/' . $banner_old_file );
                         }
 
-                        move_uploaded_file( $banner_tmp_file, ABSPATH . 'wp-content/uploads/useful_banner_manager_banners/' . $banner_id . '-' . $banner_name . '.' . $banner_type );
+                        move_uploaded_file( $banner_tmp_file, $upload_dir['basedir'] . '/useful_banner_manager_banners/' . $banner_id . '-' . $banner_name . '.' . $banner_type );
                     }
 
                     echo( '<div id="message" class="updated fade"><p><strong>' . __( 'The banner is edited.', 'useful-banner-manager' ) . '</strong></p></div>' );
@@ -210,15 +213,15 @@ if ( ! current_user_can( 'manage_options' ) ) {
                           if ( $banner->banner_type == 'swf' ) {
                               ?>
                               <object width="<?php echo( $banner->banner_width ); ?>" height="<?php echo( $banner->banner_height ); ?>">
-                                    <param name="movie" value="<?php bloginfo( 'wpurl' ); ?>/wp-content/uploads/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>">
+                                    <param name="movie" value="<?php echo( $upload_dir['baseurl'] ); ?>/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>">
                                     <param name="wmode" value="transparent">
-                                    <embed src="<?php bloginfo( 'wpurl' ); ?>/wp-content/uploads/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>" width="<?php echo( $banner->banner_width ); ?>" height="<?php echo( $banner->banner_height ); ?>" wmode="transparent">
+                                    <embed src="<?php echo( $upload_dir['baseurl'] ); ?>/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>" width="<?php echo( $banner->banner_width ); ?>" height="<?php echo( $banner->banner_height ); ?>" wmode="transparent">
                                   </embed>
                               </object>
                           <?php
                           } else {
                               ?>
-                              <img src="<?php bloginfo( 'wpurl' ); ?>/wp-content/uploads/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>" width="<?php echo( $banner->banner_width ); ?>" height="<?php echo( $banner->banner_height ); ?>" alt="<?php echo( $banner->banner_alt ); ?>" />
+                              <img src="<?php echo( $upload_dir['baseurl'] ); ?>/useful_banner_manager_banners/<?php echo( $banner->id . '-' . $banner->banner_name ); ?>.<?php echo( $banner->banner_type ); ?>" width="<?php echo( $banner->banner_width ); ?>" height="<?php echo( $banner->banner_height ); ?>" alt="<?php echo( $banner->banner_alt ); ?>" />
                           <?php
                           }
                           ?>
@@ -333,11 +336,12 @@ if ( ! current_user_can( 'manage_options' ) ) {
                 $errors = array();
 
                 $banner_name_parts = explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] );
-
                 array_pop( $banner_name_parts );
 
                 $banner_name = implode( '.', $banner_name_parts );
-                $banner_type = array_pop( explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] ) );
+
+                $banner_file_parts = explode( '.', $_FILES[ $useful_banner_manager_plugin_prefix . 'banner_file' ]['name'] );
+                $banner_type = array_pop( $banner_file_parts );
 
                 $available_formats = array( 'jpg', 'jpeg', 'gif', 'png', 'swf' );
 
@@ -459,7 +463,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
                     $added_banner_id = useful_banner_manager_add_banner( $banner_data );
 
-                    move_uploaded_file( $banner_tmp_file, ABSPATH . 'wp-content/uploads/useful_banner_manager_banners/' . $added_banner_id . '-' . $banner_name . '.' . $banner_type );
+                    move_uploaded_file( $banner_tmp_file, $upload_dir['basedir'] . '/useful_banner_manager_banners/' . $added_banner_id . '-' . $banner_name . '.' . $banner_type );
 
                     echo('<div id="message" class="updated fade"><p><strong>' . __( 'New banner is added.', 'useful-banner-manager' ) . '</strong></p></div>');
 

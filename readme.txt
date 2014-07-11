@@ -3,7 +3,7 @@ Contributors: s_ruben
 Donate link: http://rubensargsyan.com/donate/
 Tags: banner manager, ads manager, banner, banners, ads, advertisement, buddypress
 Requires at least: 3.0
-Tested up to: 3.8.1
+Tested up to: 3.9.1
 
 This banner manager plugin helps to manage the banners easily over the WordPress blog. It works with BuddyPress too.
 
@@ -48,6 +48,10 @@ For questions contact with the plugin author - [Ruben Sargsyan](http://rubensarg
 1. Manage Banners
 
 == Changelog ==
+
+= 1.5 =
+* The conflict with qTranslate plugin is solved.
+* Fixed some bugs.
 
 = 1.4 =
 * Spanish and French translations are added.
